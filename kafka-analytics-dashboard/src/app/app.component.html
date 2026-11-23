@@ -1,0 +1,230 @@
+
+<header class="dashboard-header">
+  <div class="container-fluid px-4 py-3">
+    <div class="d-flex justify-content-between
+                align-items-center flex-wrap gap-3">
+
+      <div>
+        <h1 class="brand-title">
+          Kafka Live Analytics
+        </h1>
+
+        <p class="subtitle mb-0">
+          Spring Cloud Stream · Kafka Streams · Angular 19
+        </p>
+      </div>
+
+      <div class="connection-status"
+           [class.online]="connected"
+           [class.offline]="!connected">
+
+        <span class="status-dot"></span>
+
+        {{ connected ? 'Live' : 'Déconnecté' }}
+
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<main class="container-fluid px-4 py-4">
+
+  <div class="mb-4">
+    <h2 class="section-title">
+      Dashboard Analytics
+    </h2>
+
+    <p class="subtitle">
+      Analyse des visites de pages en temps réel
+    </p>
+  </div>
+
+  <div *ngIf="!connected"
+       class="alert alert-warning">
+
+    Connexion au backend en attente.
+    Vérifiez Spring Boot sur le port 8085.
+
+  </div>
+
+  <!-- KPI Cards -->
+
+  <div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+      <div class="dashboard-card kpi-card blue">
+
+        <div class="kpi-label">
+          Total des visites
+        </div>
+
+        <div class="kpi-value">
+          {{ totalVisits | number }}
+        </div>
+
+        <div class="kpi-description">
+          Événements traités par Kafka Streams
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card kpi-card green">
+
+        <div class="kpi-label">
+          Pages actives
+        </div>
+
+        <div class="kpi-value">
+          {{ activePages }}
+        </div>
+
+        <div class="kpi-description">
+          Pages ayant reçu des visites
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card kpi-card purple">
+
+        <div class="kpi-label">
+          Page la plus visitée
+        </div>
+
+        <div class="kpi-value">
+          {{ topPage }}
+        </div>
+
+        <div class="kpi-description">
+          Page avec le plus de visites
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Charts -->
+
+  <div class="row g-4 mb-4">
+
+    <div class="col-lg-8">
+      <div class="dashboard-card">
+
+        <h3>Nombre de visites par page</h3>
+
+        <p class="subtitle">
+          Agrégation des événements Kafka
+        </p>
+
+        <div class="chart-container">
+          <canvas #barCanvas></canvas>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="dashboard-card">
+
+        <h3>Répartition des visites</h3>
+
+        <p class="subtitle">
+          Distribution par page
+        </p>
+
+        <div class="chart-container">
+          <canvas #pieCanvas></canvas>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Statistics Table -->
+
+  <div class="dashboard-card">
+
+    <h3>Statistiques détaillées</h3>
+
+    <p class="subtitle">
+      Derniers compteurs reçus depuis le topic R3
+    </p>
+
+    <div class="table-responsive">
+
+      <table class="table table-dark align-middle">
+
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Nombre de visites</th>
+            <th>Pourcentage</th>
+            <th>Progression</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let page of pages; let i = index">
+
+            <td>
+              <span class="page-dot"
+                    [style.background]="colors[i]">
+              </span>
+
+              {{ page }}
+            </td>
+
+            <td>
+              {{ statistics[page] || 0 }}
+            </td>
+
+            <td>
+              {{ getPercentage(page) | number:'1.1-1' }} %
+            </td>
+
+            <td>
+              <div class="progress">
+
+                <div class="progress-bar"
+                     [style.width.%]="getPercentage(page)"
+                     [style.background]="colors[i]">
+                </div>
+
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+
+  <footer class="dashboard-footer">
+
+    <span>
+      TP4 — Kafka et Spring Cloud
+    </span>
+
+    <span>
+      Actualisation : 1 seconde
+      |
+      Dernière mise à jour :
+      {{ lastUpdate ? (lastUpdate | date:'HH:mm:ss') : '-' }}
+    </span>
+
+  </footer>
+
+</main>
