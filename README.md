@@ -181,25 +181,19 @@ Déploiement de Kafka et ZooKeeper avec Docker Compose.
 
 ![Docker Producer Consumer](screenshots/06-docker-producer-consumer.png)
 
-### 3. Producer REST
-
-Publication de messages dans Kafka via StreamBridge.
-
-![REST Producer](screenshots/08-rest-producer.png)
-
-### 4. Consumer
+### 3. Consumer
 
 Consommation des messages du topic R1.
 
 ![Consumer](screenshots/10-spring-consumer-rest.png)
 
-### 5. Supplier
+### 4. Supplier
 
 Génération automatique d'événements dans le topic R2.
 
 ![Supplier](screenshots/14-supplier-consumer.png)
 
-### 6. Kafka Streams Data Analytics
+### 5. Kafka Streams Data Analytics
 
 Traitement des événements et calcul du nombre
 de visites pour chaque page.
@@ -212,13 +206,13 @@ de visites pour chaque page.
 
 ![Analytics Results](screenshots/19-analytics-results.png)
 
-### 7. API REST Analytics
+### 6. API REST Analytics
 
 Exposition des statistiques calculées par Kafka Streams.
 
 ![Analytics API](screenshots/20-analytics-rest-api.png)
 
-### 8. Dashboard Angular 19
+### 7. Dashboard Angular 19
 
 Le dashboard permet de visualiser :
 
